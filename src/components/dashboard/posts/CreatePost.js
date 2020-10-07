@@ -69,9 +69,12 @@ class CreatePost extends React.Component
 
     render()
     {
+
+        const { loading, message, postCreated } = this.state
+
         return (
             <DashboardLayout>
-                <form onSubmit={this.handleFormSubmit} className="mt-5">
+                <form onSubmit={this.handleFormSubmit} className="mt-5" className="new-post-form">
                     <legend className="mb-4">Create Post</legend>
 
                     {message ? <div className={`alert ${postCreated ? 'alert-success' : 'alert-danger'}`} dangerouslySetInnerHTML={this.createMarkup(message)} /> : ''}

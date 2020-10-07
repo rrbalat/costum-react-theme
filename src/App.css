@@ -74,6 +74,16 @@ a:focus {
   margin: 0 auto;
 }
 
+.post-container {
+	margin: 0 auto;
+	width: 40%;
+}
+
+.new-post-form {
+	width: 60%;
+	margin: 0 auto;
+}
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */

@@ -47,7 +47,7 @@ class Navbar extends React.Component
                     </ul>
                 </div>
                 {/*	If on dashboard page */}
-                { '/dashboard/admin' === window.location.pathname ? (
+                { `/dashboard/${userName}` === window.location.pathname ? (
                     <ToggleSidebarBtn
                         handleSidebarToggleClick={this.props.handleSidebarToggleClick}
                         active={this.props.active}

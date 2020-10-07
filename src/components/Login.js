@@ -100,7 +100,7 @@ class Login extends React.Component
                     <Navbar />
 
                     <div className="login-container">
-                        <h4 className="mb-4">Login</h4>
+                        <h4 className="mb-4 ml-5">Login</h4>
                         {error && <div className="alert alert-danger" dangerouslySetInnerHTML={this.createMarkup(error)} />}
                         <form className="login-form" onSubmit={this.onFormSubmit}>
                             <label className="form-group">

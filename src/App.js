@@ -5,6 +5,7 @@ import { Router } from '@reach/router'
 import SinglePost from './components/SinglePost';
 import Login from './components/Login';
 import Dashboard from './components/dashboard/Dashboard';
+import CreatePost from './components/dashboard/posts/CreatePost'
 
 
 class App extends React.Component
@@ -18,7 +19,7 @@ class App extends React.Component
           <SinglePost path="/post/:id" />
           <Login path="/login" />
           <Dashboard path="/dashboard/:userName" />
-
+          <CreatePost path="/dashboard/create-post" />
         </Router>
       </div>
     )
