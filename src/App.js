@@ -4,7 +4,7 @@ import Home from './components/Home';
 import { Router } from '@reach/router'
 import SinglePost from './components/SinglePost';
 import Login from './components/Login';
-import Dashbord from './components/Dashbord';
+import Dashboard from './components/dashboard/Dashboard';
 
 
 class App extends React.Component
@@ -17,7 +17,8 @@ class App extends React.Component
           <Home path="/" />
           <SinglePost path="/post/:id" />
           <Login path="/login" />
-          <Dashbord exact path="/dashboard/:userName" />
+          <Dashboard path="/dashboard/:userName" />
+
         </Router>
       </div>
     )

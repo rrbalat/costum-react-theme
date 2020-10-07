@@ -1,11 +1,12 @@
 import React from 'react'
 import Navbar from './Navbar'
 import axios from 'axios'
-import '../App.css'
-import { Link } from '@reach/router'
+import Loader from '../asstest/loader/tenor.gif'
 import renderHTML from 'react-render-html'
 import Moment from 'react-moment'
-import Loader from '../asstest/loader/tenor.gif'
+import { Link } from '@reach/router'
+import clientConfig from '../client-config'
+import '../App.css'
 
 class Home extends React.Component
 {
@@ -19,32 +20,45 @@ class Home extends React.Component
         }
     }
 
+    createMarkup = (data) => ({
+        __html: data
+    })
+
     componentDidMount()
     {
-        const wordPressSiteUrl = 'http://18.184.167.248/wordpress'
+        const wordPressSiteUrl = clientConfig.siteUrl
+
         this.setState({ loading: true }, () =>
         {
             axios.get(`${wordPressSiteUrl}/wp-json/wp/v2/posts`)
                 .then(res =>
                 {
-                    this.setState({ loading: false, posts: res.data })
+                    if (200 === res.status)
+                    {
+                        if (res.data.length)
+                        {
+                            this.setState({ loading: false, posts: res.data })
+                        } else
+                        {
+                            this.setState({ loading: false, error: 'No Posts Found' })
+                        }
+                    }
                 })
-                .catch(error =>
+                .catch(err =>
                 {
-                    this.setState({ loading: false, error: error.response.data.message })
+                    this.setState({ loading: false, error: err })
                 })
         })
     }
 
     render()
     {
-        const posts = this.state.posts
-        const loading = this.state.loading
-        const error = this.state.error
+        const { posts, loading, error } = this.state
+
         return (
-            <div>
+            <React.Fragment>
                 <Navbar />
-                {error && <div className="alert alert-danger">{error}</div>}
+                {error && <div className="alert alert-danger" dangerouslySetInnerHTML={this.createMarkup(error)} />}
                 {posts.length ? (
                     <div className="mt-5 post-container">
                         {posts.map(post =>
@@ -54,8 +68,8 @@ class Home extends React.Component
                                 <div key={post.id} className="card border-dark mb-3">
                                     {/* Title */}
                                     <div className="card-header">
-                                        <Link to={`/post${post.id}`}>
-                                            {post.title.rendered}
+                                        <Link to={`/post${post.id}`} className="text-secondary font-weight-bold post-title">
+                                            {renderHTML(post.title.rendered)}
                                         </Link>
                                     </div>
                                     {/* Body */}
@@ -75,7 +89,7 @@ class Home extends React.Component
                     </div>
                 ) : ''}
                 {loading && <img className="loader" src={Loader} alt="Loader" />}
-            </div>
+            </React.Fragment>
         )
     }
 }

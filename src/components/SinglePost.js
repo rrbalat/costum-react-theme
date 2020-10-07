@@ -20,6 +20,10 @@ class SinglePost extends React.Component
         }
     }
 
+    createMarkup = (data) => ({
+        __html: data
+    })
+
     componentDidMount()
     {
         const wordPressSiteUrl = 'http://18.184.167.248/wordpress'

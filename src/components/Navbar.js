@@ -1,26 +1,61 @@
 import React from 'react'
-import { Link } from '@reach/router'
+import { getUserName, isLoggedIn } from './functions'
+import ToggleSidebarBtn from './dashboard/sidebar/ToggleSidebarBtn'
+import NavLink from './NavLink'
+
 
 class Navbar extends React.Component
 {
+
+    constructor(props)
+    {
+        super(props);
+    }
+
+    handleLogout = () =>
+    {
+        localStorage.removeItem('token');
+        window.location.href = '/';
+    };
+
     render()
     {
-        return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        const userName = (getUserName()) ? getUserName() : '';
 
-                <div className="collapse navbar-collapse" id="navbarColor02">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                            <Link className="nav-link" to="/">Home</Link>
+        return (
+            <nav className="navbar my-navbar navbar-expand-lg main-navbar">
+                <div >
+                    <ul className="navbar-nav my-navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <NavLink to="/">Home</NavLink>
                         </li>
-                        <li className="nav-item active">
-                            <Link className="nav-link" to="/login">Login</Link>
-                        </li>
+                        {isLoggedIn() ? (
+                            <React.Fragment>
+                                <li className="nav-item">
+                                    <NavLink to={`/dashboard/${userName}`}>Dashboard</NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <button onClick={this.handleLogout} className="btn btn-secondary ml-3">Logout</button>
+                                </li>
+                            </React.Fragment>
+                        ) : (
+                                <li className="nav-item">
+                                    <NavLink to="/login">Login</NavLink>
+                                </li>
+                            )}
+
                     </ul>
                 </div>
+                {/*	If on dashboard page */}
+                { '/dashboard/admin' === window.location.pathname ? (
+                    <ToggleSidebarBtn
+                        handleSidebarToggleClick={this.props.handleSidebarToggleClick}
+                        active={this.props.active}
+                    />
+                ) : ''}
             </nav>
-        )
+        );
     }
 }
 
-export default Navbar
+export default Navbar;
